@@ -5,13 +5,12 @@
     android:layout_height="match_parent"
     tools:context="io.github.boostersamples.MainActivity">
 
-    <TextView
+    <ListView
         android:id="@+id/activity_main_greeting"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:text="Hello Booster!" />
+        android:layout_centerVertical="true" />
 
 </RelativeLayout>
