@@ -20,6 +20,8 @@ class MainActivity : Activity() {
             override fun onScrollStateChanged(view: AbsListView?, scrollState: Int) {
             }
         })
+
+        Thread.sleep(100)
     }
 
 }
