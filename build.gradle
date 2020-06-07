@@ -3,7 +3,7 @@ import static org.gradle.kotlin.dsl.KotlinDependencyExtensionsKt.embeddedKotlinV
 buildscript {
     ext {
         kotlin_version = embeddedKotlinVersion
-        booster_version = '1.5.1'
+        booster_version = '1.7.2'
         jetpack_version = '1.0.0'
         junit_version = '4.12'
         robolectric_version = '4.3'
@@ -24,15 +24,17 @@ buildscript {
         maven { url 'https://oss.sonatype.org/content/repositories/snapshots/' }
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.4.2'
+        classpath 'com.android.tools.build:gradle:3.6.0'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath "com.didiglobal.booster:booster-gradle-plugin:$booster_version"
         classpath "com.didiglobal.booster:booster-task-compression-cwebp:$booster_version"
+        classpath "com.didiglobal.booster:booster-task-compression-pngquant:$booster_version"
         classpath "com.didiglobal.booster:booster-task-resource-deredundancy:$booster_version"
         classpath "com.didiglobal.booster:booster-task-list-artifact:$booster_version"
         classpath "com.didiglobal.booster:booster-task-analyser:$booster_version"
         classpath "com.didiglobal.booster:booster-transform-thread:$booster_version"
         classpath "com.didiglobal.booster:booster-transform-webview:$booster_version"
+        classpath "io.johnsonlee.booster:booster-pngquant-provider:$booster_version"
     }
 }
 

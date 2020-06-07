@@ -3,7 +3,7 @@ import static org.gradle.kotlin.dsl.KotlinDependencyExtensionsKt.embeddedKotlinV
 buildscript {
     ext {
         kotlin_version = embeddedKotlinVersion
-        booster_version = '1.7.0'
+        booster_version = '1.7.2'
     }
     repositories {
         mavenLocal()
@@ -59,7 +59,7 @@ compileTestKotlin {
 
 dependencies {
     kapt "com.google.auto.service:auto-service:1.0-rc6"
-    api 'com.android.tools.build:gradle:3.5.0'
+    api 'com.android.tools.build:gradle:3.6.0'
     api "com.didiglobal.booster:booster-api:$booster_version"
     api "com.didiglobal.booster:booster-transform-asm:$booster_version"
 }
