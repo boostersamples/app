@@ -15,7 +15,6 @@ buildscript {
     dependencies {
         classpath "com.android.tools.build:gradle:$android_gradle_version"
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-        classpath "com.didiglobal.booster:booster-gradle-plugin:$booster_version"
         classpath "com.didiglobal.booster:booster-task-compression-cwebp:$booster_version"
         classpath "com.didiglobal.booster:booster-task-compression-pngquant:$booster_version"
         classpath "com.didiglobal.booster:booster-task-resource-deredundancy:$booster_version"
@@ -27,6 +26,9 @@ buildscript {
     }
 }
 
+plugins {
+    id "com.didiglobal.booster" version "3.0.0-alpha-3"
+}
 
 allprojects {
     repositories {
@@ -42,15 +44,14 @@ allprojects {
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
-apply plugin: 'com.didiglobal.booster'
 
 android {
-    compileSdkVersion 28
-    buildToolsVersion "26.0.3"
+    compileSdkVersion 30
+    buildToolsVersion "29.0.2"
     defaultConfig {
         applicationId 'io.github.boostersamples'
         minSdkVersion 18
-        targetSdkVersion 26
+        targetSdkVersion 30
         versionCode 1
         versionName '1.0'
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
