@@ -22,6 +22,7 @@ buildscript {
         classpath "com.didiglobal.booster:booster-task-analyser:$booster_version"
         classpath "com.didiglobal.booster:booster-transform-thread:$booster_version"
         classpath "com.didiglobal.booster:booster-transform-webview:$booster_version"
+        classpath "com.didiglobal.booster:booster-transform-r-inline:$booster_version"
         classpath "io.johnsonlee.booster:booster-pngquant-provider:2.3.0"
     }
 }
@@ -78,6 +79,7 @@ tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).all {
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation "androidx.appcompat:appcompat:${jetpack_appcompat_version}"
+    implementation "androidx.constraintlayout:constraintlayout:${jetpack_constraintlayout_version}"
 
     androidTestImplementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     androidTestImplementation "androidx.test:core:${jetpack_test_core_version}"
