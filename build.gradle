@@ -8,13 +8,13 @@ buildscript {
         mavenLocal()
         mavenCentral()
         google()
-        jcenter()
         maven { url 'https://oss.sonatype.org/content/repositories/public/' }
         maven { url 'https://oss.sonatype.org/content/repositories/snapshots/' }
     }
     dependencies {
         classpath "com.android.tools.build:gradle:$android_gradle_version"
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+        classpath "com.didiglobal.booster:booster-gradle-plugin:$booster_version"
         classpath "com.didiglobal.booster:booster-task-compression-cwebp:$booster_version"
         classpath "com.didiglobal.booster:booster-task-compression-pngquant:$booster_version"
         classpath "com.didiglobal.booster:booster-task-resource-deredundancy:$booster_version"
@@ -26,16 +26,11 @@ buildscript {
     }
 }
 
-plugins {
-    id "com.didiglobal.booster" version "3.0.0-alpha-3"
-}
-
 allprojects {
     repositories {
         mavenLocal()
         mavenCentral()
         google()
-        jcenter()
         maven { url 'https://oss.sonatype.org/content/repositories/public/' }
         maven { url 'https://oss.sonatype.org/content/repositories/snapshots/' }
     }
@@ -44,6 +39,7 @@ allprojects {
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
+apply plugin: 'com.didiglobal.booster'
 
 android {
     compileSdkVersion 30
