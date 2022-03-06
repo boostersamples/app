@@ -10,19 +10,26 @@ buildscript {
         google()
         maven { url 'https://oss.sonatype.org/content/repositories/public/' }
         maven { url 'https://oss.sonatype.org/content/repositories/snapshots/' }
+        maven {
+            url "https://plugins.gradle.org/m2/"
+        }
     }
     dependencies {
         classpath "com.android.tools.build:gradle:$android_gradle_version"
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath "com.didiglobal.booster:booster-gradle-plugin:$booster_version"
+        classpath "com.didiglobal.booster:booster-task-compression-processed-res:$booster_version"
         classpath "com.didiglobal.booster:booster-task-compression-cwebp:$booster_version"
         classpath "com.didiglobal.booster:booster-task-compression-pngquant:$booster_version"
         classpath "com.didiglobal.booster:booster-task-resource-deredundancy:$booster_version"
         classpath "com.didiglobal.booster:booster-task-list-artifact:$booster_version"
         classpath "com.didiglobal.booster:booster-task-analyser:$booster_version"
+        classpath "com.didiglobal.booster:booster-transform-activity-thread:$booster_version"
         classpath "com.didiglobal.booster:booster-transform-thread:$booster_version"
         classpath "com.didiglobal.booster:booster-transform-webview:$booster_version"
+        classpath "com.didiglobal.booster:booster-transform-br-inline:$booster_version"
         classpath "com.didiglobal.booster:booster-transform-r-inline:$booster_version"
+        classpath "com.didiglobal.booster:booster-transform-service-loader:$booster_version"
         classpath "io.johnsonlee.booster:booster-pngquant-provider:2.3.0"
     }
 }
@@ -39,6 +46,7 @@ allprojects {
 
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-kapt'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'com.didiglobal.booster'
 
@@ -77,9 +85,13 @@ tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).all {
 }
 
 dependencies {
+    kapt 'com.google.auto.service:auto-service:1.0'
+    annotationProcessor 'com.google.auto.service:auto-service:1.0'
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation 'com.google.auto.service:auto-service:1.0'
     implementation "androidx.appcompat:appcompat:${jetpack_appcompat_version}"
     implementation "androidx.constraintlayout:constraintlayout:${jetpack_constraintlayout_version}"
+    implementation 'org.eclipse.paho:org.eclipse.paho.client.mqttv3:1.2.5'
 
     androidTestImplementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     androidTestImplementation "androidx.test:core:${jetpack_test_core_version}"
@@ -97,4 +109,47 @@ dependencies {
     testImplementation "androidx.test.espresso:espresso-core:${jetpack_test_espresso_version}"
     testImplementation "androidx.test.espresso:espresso-intents:${jetpack_test_espresso_version}"
     testImplementation "org.robolectric:robolectric:${robolectric_version}"
+}
+
+gradle.taskGraph.whenReady {
+  println "rootProject: " + rootProject.name
+  println "childProjects: " + rootProject.childProjects
+
+  def dot = new File(rootProject.buildDir, 'project.dot')
+  dot.delete()
+
+  def command = "./gradlew " + gradle.startParameter.getTaskNames().join(" ")
+  println "command: " + command
+
+  dot << 'digraph {\n'
+  dot << "  graph [label=\"${command}\\n \",labelloc=t,fontsize=30];\n"
+  dot << '  node [style=filled, fillcolor="#00BFC440", shape=box];\n'
+  dot << '  rankdir=TD;\n\n'
+
+  gradle.taskGraph.allTasks.each { task ->
+    println "task: " + task.name + ", class: " + task.class.name
+
+    task.taskDependencies.getDependencies(task).each { dep ->
+      dot << "  \"${dep.name}\" -> \"${task.name}\""
+      dot << '\n'
+    }
+  }
+
+  dot << '\n'
+  dot << '}\n'
+
+  def p = 'dot -Tsvg -O project.dot'.execute([], rootProject.buildDir)
+  p.waitFor()
+  if (p.exitValue() != 0) {
+    throw new RuntimeException(p.errorStream.text)
+  }
+
+  println("Task graph created at ${dot.absolutePath}.svg")
+}
+
+gradle.taskGraph.afterTask { task ->
+  println "  inputs: "
+  task.inputs.files.each { println "    " + it }
+  println "  outputs: "
+  task.outputs.files.each { println "    " + it}
 }
