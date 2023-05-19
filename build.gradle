@@ -52,10 +52,9 @@ apply plugin: 'com.didiglobal.booster'
 
 android {
     compileSdkVersion 30
-    buildToolsVersion "29.0.2"
     defaultConfig {
         applicationId 'io.github.boostersamples'
-        minSdkVersion 18
+        minSdkVersion 30
         targetSdkVersion 30
         versionCode 1
         versionName '1.0'
